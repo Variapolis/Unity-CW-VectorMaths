@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class VectorLib : MonoBehaviour
 {
-	Vector3 AddVec(Vector3 vec1, Vector3 vec2)
+	public Vector3 ZeroVec()
+	{
+		return new Vector3(0, 0, 0);
+	}
+
+	public Vector3 AddVec(Vector3 vec1, Vector3 vec2)
 	{
 		Vector3 tempVec;
 		tempVec.x = vec1.x + vec2.x;
@@ -13,7 +18,8 @@ public class VectorLib : MonoBehaviour
 		tempVec.z = vec1.z + vec2.z;
 		return tempVec;
 	}
-	Vector3 SubVec(Vector3 vec1, Vector3 vec2)
+	
+	public Vector3 SubVec(Vector3 vec1, Vector3 vec2)
 	{
 		Vector3 tempVec;
 		tempVec.x = vec1.x - vec2.x;
@@ -21,33 +27,43 @@ public class VectorLib : MonoBehaviour
 		tempVec.z = vec1.z - vec2.z;
 		return tempVec;
 	}
-	Vector3 ScalarMultVec(Vector3 vec1, float multiple) // Need double checking
+	public Vector3 ScalarMultVec(Vector3 vec1, float multiple) // TODO Need double checking
 	{
 		return new Vector3(vec1.x * multiple, vec1.y * multiple, vec1.z * multiple);
 	}
-	float DotVec(Vector3 vec1, Vector3 vec2)
+	public float DotVec(Vector3 vec1, Vector3 vec2)
 	{
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
 	}
-	float MagVec(Vector3 vec1)
+	public float MagVec(Vector3 vec1)
 	{
-		return (float)Math.Sqrt(Math.Pow(vec1.x, 2.0) + Math.Pow(vec1.y, 2.0) + Math.Pow(vec1.z, 2.0));
+		return Mathf.Sqrt(+Mathf.Pow(vec1.x, 2.0f) + Mathf.Pow(vec1.y, 2.0f) + Mathf.Pow(vec1.z, 2.0f));
 	}
-	Vector3 UnitVec(Vector3 vec1) // Need double checking
+	public Vector3 UnitVec(Vector3 vec1) // TODO Need double checking
 	{
 		float magnitude = MagVec(vec1);
 		return new Vector3(vec1.x / magnitude, vec1.y / magnitude, vec1.z / magnitude);
 	}
 
-	Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // Unsure if correct or not
+	public Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // TODO Unsure if correct or not CHECK LECTURE 6
 	{
 		Vector3 tempVec = SubVec(vec1, vec2);
 		return UnitVec(tempVec);
 	}
 
-	// Polar to Cartes and Vice versa needed
-	// Vector reflection needed
-	// 3D Zero Vector
-	// Point on Line check
-	// Vector nearly equal with radius
+	public Vector3 ToCartes(Vector3 polarVec) // TODO NOT COMPLETE
+	{
+		return new Vector3(0,0,0);
+	}
+
+	public Vector3 toPolar(Vector3 cartesVec) // TODO NOT COMPLETE
+	{
+		return new Vector3((float)Mathf.Sin(cartesVec.x) ,0,0);
+	}
+
+	// TODO Polar to Cartes and Vice versa needed -Doing- 
+	// TODO Vector reflection needed
+	// TODO 3D Zero Vector
+	// TODO Point on Line check
+	// TODO Vector nearly equal with radius
 }
