@@ -251,7 +251,7 @@ MonoBehaviour:
   groundHeight: 0
   velocity: {x: 1, y: 15, z: 2}
   acceleration: {x: 0, y: -9.81, z: 0}
-  vectorLibrary: {fileID: 1892210141}
+  vecLib: {fileID: 1892210141}
 --- !u!135 &824843348
 SphereCollider:
   m_ObjectHideFlags: 0

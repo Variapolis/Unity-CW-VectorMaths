@@ -51,6 +51,26 @@ public class VectorLib : MonoBehaviour
 		return UnitVec(tempVec);
 	}
 
+	public Vector3 ReflVecAxisAlign(Vector3 vec1, char axis)
+	{
+		switch (axis)
+		{
+			case 'x':
+				vec1.x = -vec1.x;
+				break;
+			case 'y':
+				vec1.y = -vec1.y;
+				break;
+			case 'z':
+				vec1.z = -vec1.z;
+				break;
+			default:
+				Debug.Log("Incorrect axis, vector was not reflected.");
+				break;
+		}
+		return vec1;
+	}
+
 	public Vector3 ToCartes(Vector3 polarVec) // TODO NOT COMPLETE
 	{
 		return new Vector3(0,0,0);

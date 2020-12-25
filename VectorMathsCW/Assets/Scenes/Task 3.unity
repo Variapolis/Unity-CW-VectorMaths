@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209c2f0dd16a75a488bfea18f564ae1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vectorLibrary: {fileID: 1209559012}
+  vecLib: {fileID: 1209559012}
   startingWaypoint: 3
   speed: 2
   distanceThreshold: 0.2

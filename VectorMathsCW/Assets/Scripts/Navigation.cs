@@ -5,7 +5,7 @@ using UnityEngine;
 public class Navigation : MonoBehaviour
 {
 
-	public VectorLib vectorLibrary;
+	public VectorLib vecLib;
 	public int startingWaypoint;
 	public float speed;
 	public float distanceThreshold;
@@ -25,15 +25,15 @@ public class Navigation : MonoBehaviour
 
     float GetDistance(Vector3 vec1)
     {
-	    return vectorLibrary.MagVec(vectorLibrary.SubVec(transform.position, vec1));
+	    return vecLib.MagVec(vecLib.SubVec(transform.position, vec1));
     }
 
     // Update is called once per frame
     void Update()
     {
 	    velocity = 
-		    vectorLibrary.ScalarMultVec(vectorLibrary.UnitDirVec(waypoints[waypointIterator].transform.position, transform.position), speed * Time.deltaTime);
-	    transform.position = vectorLibrary.AddVec(transform.position, velocity);
+		    vecLib.ScalarMultVec(vecLib.UnitDirVec(waypoints[waypointIterator].transform.position, transform.position), speed * Time.deltaTime);
+	    transform.position = vecLib.AddVec(transform.position, velocity);
 	    distance = GetDistance(waypoints[waypointIterator].transform.position);
 	    if (distance < distanceThreshold) { waypointIterator++; }
 	    if (waypointIterator > waypoints.Length - 1) { waypointIterator = 0; }

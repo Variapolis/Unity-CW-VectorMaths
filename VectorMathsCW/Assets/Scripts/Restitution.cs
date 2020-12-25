@@ -8,7 +8,7 @@ public class Restitution : MonoBehaviour
 	public float restitution, bounceLimit, boundsLimit, groundHeight;
 
 	public Vector3 velocity, acceleration;
-    public VectorLib vectorLibrary;
+    public VectorLib vecLib;
 
     bool CheckBounce(float height) // Checks if the ball is touching the ground.
     {
@@ -24,7 +24,7 @@ public class Restitution : MonoBehaviour
     void ResetHeight()
     {
 	    Vector3 tempVector = transform.position;
-	    tempVector.y = 0 + (transform.lossyScale.y / 2);
+	    tempVector.y = groundHeight + (transform.lossyScale.y / 2);
 	    transform.position = tempVector;
     }
 
@@ -44,13 +44,13 @@ public class Restitution : MonoBehaviour
 
     void FreezeBall() // Sets the velocity vector to zero, in turn nulling it's velocity.
     {
-	    velocity = vectorLibrary.ZeroVec();
+	    velocity = vecLib.ZeroVec();
 		Debug.Log("Ball Frozen.");
     }
 
     bool CheckBounds() // Checks if the ball is outside the horizontal bounds.
     {
-	    if (transform.position.x < -20 || transform.position.x > 20 || transform.position.z < -20 || transform.position.z > 20)
+	    if (transform.position.x < -boundsLimit || transform.position.x > boundsLimit || transform.position.z < -boundsLimit || transform.position.z > boundsLimit)
 	    {
 			Debug.Log("Out of Bounds.");
 		    return true;
@@ -61,10 +61,10 @@ public class Restitution : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    velocity = vectorLibrary.AddVec(velocity, vectorLibrary.ScalarMultVec(acceleration, Time.deltaTime));
+	    velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(acceleration, Time.deltaTime));
 	    if (CheckBounce(groundHeight)) { Bounce(); }
 	    if (CheckBounds()) { FreezeBall(); }
-		transform.position = vectorLibrary.AddVec(transform.position, vectorLibrary.ScalarMultVec(velocity, Time.deltaTime));
+		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));
 		
 	}
 }
