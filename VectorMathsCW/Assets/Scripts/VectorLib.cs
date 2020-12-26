@@ -35,6 +35,11 @@ public class VectorLib : MonoBehaviour
 	{
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
 	}
+	public Vector3 CrossVec(Vector3 vec1, Vector3 vec2)
+	{
+		return new Vector3(vec1.x * vec2.x, vec1.y * vec2.y, vec1.z * vec2.z);
+	}
+
 	public float MagVec(Vector3 vec1)
 	{
 		return Mathf.Sqrt(+Mathf.Pow(vec1.x, 2.0f) + Mathf.Pow(vec1.y, 2.0f) + Mathf.Pow(vec1.z, 2.0f));
@@ -69,6 +74,16 @@ public class VectorLib : MonoBehaviour
 				break;
 		}
 		return vec1;
+	}
+
+	public bool isOnLineAxisAligned(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2)
+	{
+		//if ()
+		//{
+		//	return true;
+		//}
+
+		return false;
 	}
 
 	public Vector3 ToCartes(Vector3 polarVec) // TODO NOT COMPLETE

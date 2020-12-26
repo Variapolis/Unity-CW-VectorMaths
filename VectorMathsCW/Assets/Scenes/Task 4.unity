@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44532526, g: 0.49497098, b: 0.5739582, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 355639713}
   - component: {fileID: 355639712}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 523209961}
   - component: {fileID: 523209960}
   - component: {fileID: 523209959}
+  - component: {fileID: 523209963}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -308,7 +309,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6c6568292486cf44dbace057d58879fe, type: 2}
+  - {fileID: 2100000, guid: feb7e1dbd43dc7f4fa35ea0e33254fad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -351,6 +352,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &523209963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523209958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2ab578a55030d46bcdfca98e158d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friction: 0.5
+  velocity: {x: -8, y: 0, z: 0}
+  vecLib: {fileID: 456917111}
+  balls:
+  - {fileID: 0}
+  walls:
+  - {fileID: 355639711}
+  - {fileID: 1775333950}
+  - {fileID: 1859530827}
+  - {fileID: 1042852960}
 --- !u!1 &904555222
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,13 +459,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904555222}
-  m_LocalRotation: {x: 0.8929078, y: -0, z: -0, w: 0.4502396}
+  m_LocalRotation: {x: 0.33466417, y: -0.4174194, z: 0.8278189, w: 0.16875114}
   m_LocalPosition: {x: 0, y: 3, z: 12.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 126.481995, y: -0.000015258789, z: -0.000015258789}
+  m_LocalEulerAnglesHint: {x: 126.481995, y: -135.976, z: 0}
 --- !u!1 &1042852960
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +479,7 @@ GameObject:
   - component: {fileID: 1042852962}
   - component: {fileID: 1042852961}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -612,13 +635,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081387905}
-  m_LocalRotation: {x: 0.6096404, y: -0, z: -0, w: 0.7926782}
-  m_LocalPosition: {x: 0, y: 12.39, z: -3.42}
+  m_LocalRotation: {x: 0.58251697, y: -0, z: -0, w: 0.8128185}
+  m_LocalPosition: {x: 0, y: 11.67, z: -3.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 75.12701, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 71.256004, y: 0, z: 0}
 --- !u!1 &1767004978
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +749,7 @@ GameObject:
   - component: {fileID: 1775333952}
   - component: {fileID: 1775333951}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -819,7 +842,7 @@ GameObject:
   - component: {fileID: 1859530829}
   - component: {fileID: 1859530828}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
