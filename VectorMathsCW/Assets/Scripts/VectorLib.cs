@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class VectorLib : MonoBehaviour
 {
-	public Vector3 ZeroVec()
+	public Vector3 ZeroVec() // TODO Double check if "return new Vector3" is allowed
 	{
 		return new Vector3(0, 0, 0);
 	}
@@ -98,7 +98,7 @@ public class VectorLib : MonoBehaviour
 
 	// TODO Polar to Cartes and Vice versa needed -Doing- 
 	// TODO Vector reflection needed
-	// TODO 3D Zero Vector
+	// Done? 3D Zero Vector
 	// TODO Point on Line check
 	// TODO Vector nearly equal with radius
 }

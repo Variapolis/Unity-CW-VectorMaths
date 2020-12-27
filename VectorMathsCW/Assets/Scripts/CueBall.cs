@@ -19,6 +19,18 @@ public class CueBall : MonoBehaviour
 	    _frictionVec.z = friction;
     }
 
+    void FrictionToleranceHandler()
+    {
+	    if (velocity.x < minVelocity)
+	    {
+		    velocity.x = 0;
+	    }
+	    if (velocity.z < minVelocity)
+	    {
+		    velocity.z = 0;
+	    }
+	}
+
     // Update is called once per frame
     void Update()
     {
@@ -26,8 +38,7 @@ public class CueBall : MonoBehaviour
 	    transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));
 
 		// Friction, not at a 0 to 1 scale. - TODO Make 0 to 1 scale, 1 being completely sticky.
-	    velocity.x -= velocity.x * friction * Time.deltaTime;
-	    velocity.z -= velocity.z * friction * Time.deltaTime;
+		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction*Time.deltaTime));
 
 		// Below is the vector reflection and bounds detection. - TODO Turn into separate functions.
 		if (transform.position.x > 5 || transform.position.x < -5)
@@ -59,9 +70,10 @@ public class CueBall : MonoBehaviour
 		
 		/* 
          TODO Check collision between walls
-         TODO Then find the axis of the wall and use Axis Aligned Reflection Function from the vecLib to reflect the ball accordingly
-        
-         TODO Add friction
+         TODO Then find the axis of the wall and 
+
+		 DONE use Axis Aligned Reflection Function from the vecLib to reflect the ball accordingly
+         DONE Add friction
         
          TODO Part B
         */
