@@ -31,6 +31,7 @@ public class VectorLib : MonoBehaviour
 	{
 		return new Vector3(vec1.x * multiple, vec1.y * multiple, vec1.z * multiple);
 	}
+	
 	public float DotVec(Vector3 vec1, Vector3 vec2)
 	{
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
@@ -70,35 +71,51 @@ public class VectorLib : MonoBehaviour
 				vec1.z = -vec1.z;
 				break;
 			default:
-				Debug.Log("Incorrect axis, vector was not reflected.");
+				Debug.Log("Invalid axis, vector was not reflected.");
 				break;
 		}
 		return vec1;
 	}
 
-	public bool isOnLineAxisAligned(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2)
+	public Vector3 GetPerpendicular(Vector3 linePoint1, Vector3 linePoint2)
 	{
-		//if ()
-		//{
-		//	return true;
-		//}
-
-		return false;
+		return new Vector3(-linePoint2.z+linePoint1.z, 0, linePoint2.x - linePoint1.x);
 	}
 
-	public Vector3 ToCartes(Vector3 polarVec) // TODO NOT COMPLETE
+	public bool isOnLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2, float tolerance)
 	{
-		return new Vector3(0,0,0);
+		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
+		return (Mathf.Abs(DotVec(SubVec(objectPoint, linePoint1), perpendicular)) / MagVec(perpendicular) < tolerance);
 	}
 
-	public Vector3 toPolar(Vector3 cartesVec) // TODO NOT COMPLETE
+	public Vector3 ToSphericalCartes(Vector3 polarVec) 
 	{
-		return new Vector3((float)Mathf.Sin(cartesVec.x) ,0,0);
+		Vector3 cartesVec;
+		cartesVec.x = polarVec.x * Mathf.Sin(polarVec.z) * Mathf.Cos(polarVec.y);
+		cartesVec.y = polarVec.x * Mathf.Sin(polarVec.z) * Mathf.Sin(polarVec.y);
+		cartesVec.z = polarVec.x * Mathf.Cos(polarVec.z);
+		return cartesVec;
 	}
 
-	// TODO Polar to Cartes and Vice versa needed -Doing- 
-	// TODO Vector reflection needed
+	public Vector3 toSphericalPolar(Vector3 cartesVec)
+	{
+		Vector3 sphericalVector;
+		sphericalVector.x = Mathf.Sqrt(Mathf.Pow(cartesVec.x, 2)+ Mathf.Pow(cartesVec.y, 2)+ Mathf.Pow(cartesVec.z, 2));
+		sphericalVector.y = Mathf.Atan2(cartesVec.y, cartesVec.x);
+		sphericalVector.z = Mathf.Acos(cartesVec.z / Mathf.Sqrt(Mathf.Pow(cartesVec.x, 2) + Mathf.Pow(cartesVec.y, 2) + Mathf.Pow(cartesVec.z, 2)));
+		return sphericalVector;
+	}
+
+	public bool checkSphereCol(Vector3 objectPoint1, Vector3 objectPoint2, float radius1, float radius2)
+	{
+		return (MagVec(SubVec(objectPoint1, objectPoint2)) < radius1 + radius2);
+	}
+
+
+
+	// Done Polar to Cartes and Vice versa needed -Doing- 
+	// Done Vector reflection needed
 	// Done? 3D Zero Vector
-	// TODO Point on Line check
-	// TODO Vector nearly equal with radius
+	// TODO Point on Line check (DONE BUT NEEDS DOUBLE CHECKING)
+	// Done Vector nearly equal with radius
 }
