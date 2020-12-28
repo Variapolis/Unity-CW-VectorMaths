@@ -8,11 +8,10 @@ public class CueBall : MonoBehaviour
 
 	public Vector3 velocity;
 	public VectorLib vecLib;
-	public CueBall[] balls;
+	public  CueBall[] balls;
 	public WallToLine[] walls;
-	private bool ballExited, wallExited;
 
-    void FrictionToleranceHandler() // If velocity is below a certain speed, sets to 0.
+	void FrictionToleranceHandler() // If velocity is below a certain speed, sets to 0.
     {
 	    if (velocity.x < minVelocity && velocity.x > -minVelocity)
 	    {
@@ -30,20 +29,21 @@ public class CueBall : MonoBehaviour
 		Debug.Log("WallColFunc");
 	    if (wall.transform.rotation.y == 0 || wall.transform.rotation.y == 180)
 		{
-			Debug.Log("Reflected Z axis");
-			velocity = vecLib.ReflVecAxisAlign(velocity, 'z'); 
+			if (Mathf.Sign(wall.transform.position.z) == Mathf.Sign(velocity.z))
+			{
+				Debug.Log("Reflected Z axis");
+				velocity = vecLib.ReflVecAxisAlign(velocity, 'z'); 
+			}
+			
 		}
 		else
 		{
-			Debug.Log("Reflected X axis");
-			velocity = vecLib.ReflVecAxisAlign(velocity, 'x');
+			if (Mathf.Sign(wall.transform.position.x) == Mathf.Sign(velocity.x))
+			{
+				Debug.Log("Reflected X axis");
+				velocity = vecLib.ReflVecAxisAlign(velocity, 'x');
+			}
 		}
-    }
-
-    void Start()
-    {
-	    ballExited = true;
-	    wallExited = true;
     }
 
     void BallCollisionHandler(CueBall ball2)
@@ -53,7 +53,8 @@ public class CueBall : MonoBehaviour
 	    float massCalc = velocityScalar * (2 * ball2.mass) / mass + ball2.mass;
 	    velocity = vecLib.SubVec(velocity, vecLib.ScalarMultVec(vecLib.SubVec(transform.position, ball2.transform.position), massCalc));
     }
-	
+
+
     // Update is called once per frame
     void Update()
     {
@@ -61,29 +62,21 @@ public class CueBall : MonoBehaviour
 	    {
 		    bool onLine = (vecLib.isOnLine(transform.position, i.position1, i.position2,
 			    transform.localScale.x / 2 + i.transform.localScale.z / 2));
-		    if ( onLine && wallExited)
+		    if (onLine)
 		    {
-			    wallExited = false; // Very cheap and risky but better than creating a class at the moment
+			    vecLib.GetLine(transform.position, i.position1, i.position2);
+				Debug.Log(transform.position);
 			    WallCollisionHandler(i);
 			}
-		    if (!onLine)
-		    {
-			    wallExited = true;
-		    }
 	    }
 
 	    foreach (CueBall i in balls)
 	    {
 		    bool ballCol = (vecLib.checkSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
 			    i.transform.localScale.x / 2));
-		    if (ballCol && ballExited)
+		    if (ballCol && (vecLib.isMovingTowards(i.transform.position, transform.position, velocity) || vecLib.isMovingTowards(transform.position, i.transform.position, i.velocity)))
 		    {
-				ballExited = false;
-				BallCollisionHandler(i);
-		    }
-			if (!ballCol)
-		    {
-			    ballExited = true;
+			    BallCollisionHandler(i);
 		    }
 	    }
 

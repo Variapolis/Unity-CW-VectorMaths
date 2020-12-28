@@ -82,10 +82,23 @@ public class VectorLib : MonoBehaviour
 		return new Vector3(-linePoint2.z+linePoint1.z, 0, linePoint2.x - linePoint1.x);
 	}
 
+	public bool isMovingTowards(Vector3 targetPoint, Vector3 objectPoint, Vector3 objectVelocity)
+	{
+		return DotVec(SubVec(targetPoint, objectPoint), objectVelocity) >= 0;
+	}
+
 	public bool isOnLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2, float tolerance)
 	{
 		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
 		return (Mathf.Abs(DotVec(SubVec(objectPoint, linePoint1), perpendicular)) / MagVec(perpendicular) < tolerance);
+	}
+
+	public Vector3 GetLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2)
+	{
+		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
+		Vector3 lineVec = ScalarMultVec(CrossVec(SubVec(objectPoint, linePoint1), perpendicular), 1/MagVec(perpendicular));
+		Debug.Log(lineVec);
+		return lineVec;
 	}
 
 	public Vector3 ToSphericalCartes(Vector3 polarVec) 
