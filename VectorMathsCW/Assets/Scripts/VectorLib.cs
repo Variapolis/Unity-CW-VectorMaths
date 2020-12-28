@@ -43,15 +43,15 @@ public class VectorLib : MonoBehaviour
 
 	public float MagVec(Vector3 vec1) // Finds the distance of vector from origin
 	{
-		return Mathf.Sqrt(+Mathf.Pow(vec1.x, 2.0f) + Mathf.Pow(vec1.y, 2.0f) + Mathf.Pow(vec1.z, 2.0f));
+		return Mathf.Sqrt(Mathf.Pow(vec1.x, 2.0f) + Mathf.Pow(vec1.y, 2.0f) + Mathf.Pow(vec1.z, 2.0f));
 	}
-	public Vector3 UnitVec(Vector3 vec1) // TODO Need double checking AND COMMENT
+	public Vector3 UnitVec(Vector3 vec1) // finds the direction vector of a vector from 0 origin
 	{
 		float magnitude = MagVec(vec1);
 		return new Vector3(vec1.x / magnitude, vec1.y / magnitude, vec1.z / magnitude);
 	}
 
-	public Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // TODO Unsure if correct or not CHECK LECTURE 6 AND COMMENT
+	public Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // Finds the direction vector of two vectors
 	{
 		Vector3 tempVec = SubVec(vec1, vec2);
 		return UnitVec(tempVec);
