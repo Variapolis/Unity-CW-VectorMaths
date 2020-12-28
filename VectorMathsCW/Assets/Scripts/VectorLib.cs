@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class VectorLib : MonoBehaviour
 {
-	public Vector3 ZeroVec() // TODO Double check if "return new Vector3" is allowed
+	public Vector3 ZeroVec() // Returns a vector with zero for x y z TODO Double check if "return new Vector3" is allowed
 	{
 		return new Vector3(0, 0, 0);
 	}
 
-	public Vector3 AddVec(Vector3 vec1, Vector3 vec2)
+	public Vector3 AddVec(Vector3 vec1, Vector3 vec2) // creates a new vector adding two vectors together x+x y+y z+z.
 	{
 		Vector3 tempVec;
 		tempVec.x = vec1.x + vec2.x;
@@ -19,7 +19,7 @@ public class VectorLib : MonoBehaviour
 		return tempVec;
 	}
 	
-	public Vector3 SubVec(Vector3 vec1, Vector3 vec2)
+	public Vector3 SubVec(Vector3 vec1, Vector3 vec2) // creates a new vector subtracting two vectors x-x y-y z-z.
 	{
 		Vector3 tempVec;
 		tempVec.x = vec1.x - vec2.x;
@@ -27,37 +27,37 @@ public class VectorLib : MonoBehaviour
 		tempVec.z = vec1.z - vec2.z;
 		return tempVec;
 	}
-	public Vector3 ScalarMultVec(Vector3 vec1, float multiple) // TODO Need double checking
+	public Vector3 ScalarMultVec(Vector3 vec1, float multiple) // creates a new vector x*a y*a z*a
 	{
 		return new Vector3(vec1.x * multiple, vec1.y * multiple, vec1.z * multiple);
 	}
 	
-	public float DotVec(Vector3 vec1, Vector3 vec2)
+	public float DotVec(Vector3 vec1, Vector3 vec2) // Finds the dot product of two vectors (x*x+y*y+z*z)
 	{
 		return (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
 	}
-	public Vector3 CrossVec(Vector3 vec1, Vector3 vec2)
+	public Vector3 CrossVec(Vector3 vec1, Vector3 vec2) // Same as dot product but doesn't add x y z together.
 	{
 		return new Vector3(vec1.x * vec2.x, vec1.y * vec2.y, vec1.z * vec2.z);
 	}
 
-	public float MagVec(Vector3 vec1)
+	public float MagVec(Vector3 vec1) // Finds the distance of vector from origin
 	{
 		return Mathf.Sqrt(+Mathf.Pow(vec1.x, 2.0f) + Mathf.Pow(vec1.y, 2.0f) + Mathf.Pow(vec1.z, 2.0f));
 	}
-	public Vector3 UnitVec(Vector3 vec1) // TODO Need double checking
+	public Vector3 UnitVec(Vector3 vec1) // TODO Need double checking AND COMMENT
 	{
 		float magnitude = MagVec(vec1);
 		return new Vector3(vec1.x / magnitude, vec1.y / magnitude, vec1.z / magnitude);
 	}
 
-	public Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // TODO Unsure if correct or not CHECK LECTURE 6
+	public Vector3 UnitDirVec(Vector3 vec1, Vector3 vec2) // TODO Unsure if correct or not CHECK LECTURE 6 AND COMMENT
 	{
 		Vector3 tempVec = SubVec(vec1, vec2);
 		return UnitVec(tempVec);
 	}
 
-	public Vector3 ReflVecAxisAlign(Vector3 vec1, char axis)
+	public Vector3 ReflVecAxisAlign(Vector3 vec1, char axis) // Inverts one value in the vector based on chosen axis.
 	{
 		switch (axis)
 		{
@@ -77,31 +77,23 @@ public class VectorLib : MonoBehaviour
 		return vec1;
 	}
 
-	public Vector3 GetPerpendicular(Vector3 linePoint1, Vector3 linePoint2)
+	public Vector3 GetPerpendicular(Vector3 linePoint1, Vector3 linePoint2) // Finds the perpendicular line of a vector line.
 	{
 		return new Vector3(-linePoint2.z+linePoint1.z, 0, linePoint2.x - linePoint1.x);
 	}
 
-	public bool isMovingTowards(Vector3 targetPoint, Vector3 objectPoint, Vector3 objectVelocity)
+	public bool isMovingTowards(Vector3 targetPoint, Vector3 objectPoint, Vector3 objectVelocity) // Checks if object 1 is moving towards target
 	{
 		return DotVec(SubVec(targetPoint, objectPoint), objectVelocity) >= 0;
 	}
 
-	public bool isOnLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2, float tolerance)
+	public bool isOnLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2, float tolerance) // Finds vector distance to line and checks distance against tolerance.
 	{
 		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
 		return (Mathf.Abs(DotVec(SubVec(objectPoint, linePoint1), perpendicular)) / MagVec(perpendicular) < tolerance);
 	}
 
-	public Vector3 GetLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2)
-	{
-		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
-		Vector3 lineVec = ScalarMultVec(CrossVec(SubVec(objectPoint, linePoint1), perpendicular), 1/MagVec(perpendicular));
-		Debug.Log(lineVec);
-		return lineVec;
-	}
-
-	public Vector3 ToSphericalCartes(Vector3 polarVec) 
+	public Vector3 ToSphericalCartes(Vector3 polarVec) // Converts spherical coordinates to cartesian
 	{
 		Vector3 cartesVec;
 		cartesVec.x = polarVec.x * Mathf.Sin(polarVec.z) * Mathf.Cos(polarVec.y);
@@ -110,7 +102,7 @@ public class VectorLib : MonoBehaviour
 		return cartesVec;
 	}
 
-	public Vector3 toSphericalPolar(Vector3 cartesVec)
+	public Vector3 toSphericalPolar(Vector3 cartesVec) // Converts cartesian coordinates to spherical
 	{
 		Vector3 sphericalVector;
 		sphericalVector.x = Mathf.Sqrt(Mathf.Pow(cartesVec.x, 2)+ Mathf.Pow(cartesVec.y, 2)+ Mathf.Pow(cartesVec.z, 2));
@@ -119,16 +111,13 @@ public class VectorLib : MonoBehaviour
 		return sphericalVector;
 	}
 
-	public bool checkSphereCol(Vector3 objectPoint1, Vector3 objectPoint2, float radius1, float radius2)
+	public bool checkSphereCol(Vector3 objectPoint1, Vector3 objectPoint2, float radius1, float radius2) // Checks if two spheres are close than the sum of their radii
 	{
 		return (MagVec(SubVec(objectPoint1, objectPoint2)) < radius1 + radius2);
 	}
 
 
 
-	// Done Polar to Cartes and Vice versa needed -Doing- 
-	// Done Vector reflection needed
-	// Done? 3D Zero Vector
-	// TODO Point on Line check (DONE BUT NEEDS DOUBLE CHECKING)
-	// Done Vector nearly equal with radius
+	// TODO Comment for UnitDirVec, DirVec and OnLine
+	// TODO See if "return new Vector3()" is allowed, adjust accordingly
 }

@@ -21,7 +21,7 @@ public class Restitution : MonoBehaviour
 	    return false;
     }
 
-    void ResetHeight()
+    void ResetHeight() // Resets height to make bounces more consistent.
     {
 	    Vector3 tempVector = transform.position;
 	    tempVector.y = groundHeight + (transform.lossyScale.y / 2);
@@ -61,7 +61,7 @@ public class Restitution : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(acceleration, Time.deltaTime));
+	    velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(acceleration, Time.deltaTime)); // Adds acceleration to the velocity.
 	    if (CheckBounce(groundHeight)) { Bounce(); }
 	    if (CheckBounds()) { FreezeBall(); }
 		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));

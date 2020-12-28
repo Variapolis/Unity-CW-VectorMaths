@@ -27,9 +27,10 @@ public class CueBall : MonoBehaviour
     void WallCollisionHandler(WallToLine wall)
     {
 		Debug.Log("WallColFunc");
-	    if (wall.transform.rotation.y == 0 || wall.transform.rotation.y == 180)
+	    if (wall.transform.rotation.y == 0 || wall.transform.rotation.y == 180) // Axis Aligned checking wall
 		{
-			if (Mathf.Sign(wall.transform.position.z) == Mathf.Sign(velocity.z))
+			if (Mathf.Sign(wall.transform.position.z) == Mathf.Sign(velocity.z)) 
+				// if velocity sign is the same as the position sign of the wall, cheap way to check "Is Moving Towards"
 			{
 				Debug.Log("Reflected Z axis");
 				velocity = vecLib.ReflVecAxisAlign(velocity, 'z'); 
@@ -46,7 +47,7 @@ public class CueBall : MonoBehaviour
 		}
     }
 
-    void BallCollisionHandler(CueBall ball2)
+    void BallCollisionHandler(CueBall ball2) // TODO refer to video for comments
     {
 	    
 	    float velocityScalar = vecLib.DotVec(vecLib.SubVec(velocity, ball2.velocity), vecLib.SubVec(transform.position, ball2.transform.position)) / Mathf.Pow(vecLib.MagVec(vecLib.SubVec(transform.position, ball2.transform.position)), 2f);
@@ -58,22 +59,21 @@ public class CueBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    foreach (WallToLine i in walls)
+	    foreach (WallToLine i in walls) // iterates through the walls array and checks collision against every wall.
 	    {
 		    bool onLine = (vecLib.isOnLine(transform.position, i.position1, i.position2,
 			    transform.localScale.x / 2 + i.transform.localScale.z / 2));
 		    if (onLine)
 		    {
-			    vecLib.GetLine(transform.position, i.position1, i.position2);
-				Debug.Log(transform.position);
 			    WallCollisionHandler(i);
 			}
 	    }
 
-	    foreach (CueBall i in balls)
+	    foreach (CueBall i in balls) // iterates through the balls and checks collision
 	    {
 		    bool ballCol = (vecLib.checkSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
 			    i.transform.localScale.x / 2));
+			// if this ball or the other ball is moving towards the other, and the ball is colliding, runs ball col handler
 		    if (ballCol && (vecLib.isMovingTowards(i.transform.position, transform.position, velocity) || vecLib.isMovingTowards(transform.position, i.transform.position, i.velocity)))
 		    {
 			    BallCollisionHandler(i);
@@ -81,22 +81,12 @@ public class CueBall : MonoBehaviour
 	    }
 
 		// Friction
-		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction * Time.deltaTime));
+		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
 		FrictionToleranceHandler();
 
 		// Velocity transform
-		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));
+		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime)); // velocity added to position over time
 
-
-		/* 
-         DONE Check collision between walls
-         DONE Then find the axis of the wall and 
-
-		 DONE use Axis Aligned Reflection Function from the vecLib to reflect the ball accordingly
-         DONE Add friction
-        
-         DONE Part B
-        */
 	}
 
 }
