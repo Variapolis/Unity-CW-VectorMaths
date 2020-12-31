@@ -5,27 +5,19 @@ using UnityEngine;
 
 public class VectorLib : MonoBehaviour
 {
-	public Vector3 ZeroVec() // Returns a vector with zero for x y z TODO Double check if "return new Vector3" is allowed
+	public Vector3 ZeroVec() // Returns a vector with zero for x y z
 	{
 		return new Vector3(0, 0, 0);
 	}
 
 	public Vector3 AddVec(Vector3 vec1, Vector3 vec2) // creates a new vector adding two vectors together x+x y+y z+z.
 	{
-		Vector3 tempVec;
-		tempVec.x = vec1.x + vec2.x;
-		tempVec.y = vec1.y + vec2.y;
-		tempVec.z = vec1.z + vec2.z;
-		return tempVec;
+		return new Vector3(vec1.x + vec2.x, vec1.y + vec2.y, vec1.z + vec2.z);
 	}
 	
 	public Vector3 SubVec(Vector3 vec1, Vector3 vec2) // creates a new vector subtracting two vectors x-x y-y z-z.
 	{
-		Vector3 tempVec;
-		tempVec.x = vec1.x - vec2.x;
-		tempVec.y = vec1.y - vec2.y;
-		tempVec.z = vec1.z - vec2.z;
-		return tempVec;
+		return new Vector3(vec1.x - vec2.x, vec1.y - vec2.y, vec1.z - vec2.z);
 	}
 	public Vector3 ScalarMultVec(Vector3 vec1, float multiple) // creates a new vector x*a y*a z*a
 	{
@@ -89,8 +81,9 @@ public class VectorLib : MonoBehaviour
 
 	public bool isOnLine(Vector3 objectPoint, Vector3 linePoint1, Vector3 linePoint2, float tolerance) // Finds vector distance to line and checks distance against tolerance.
 	{
-		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2);
+		Vector3 perpendicular = GetPerpendicular(linePoint1, linePoint2); 
 		return (Mathf.Abs(DotVec(SubVec(objectPoint, linePoint1), perpendicular)) / MagVec(perpendicular) < tolerance);
+		// Uses Pythag between the angle of linepoint1 -> objectpoint and perpendicular of the line, to find the distance between the point and the line.
 	}
 
 	public Vector3 ToSphericalCartes(Vector3 polarVec) // Converts spherical coordinates to cartesian
@@ -102,7 +95,7 @@ public class VectorLib : MonoBehaviour
 		return cartesVec;
 	}
 
-	public Vector3 toSphericalPolar(Vector3 cartesVec) // Converts cartesian coordinates to spherical
+	public Vector3 ToSphericalPolar(Vector3 cartesVec) // Converts cartesian coordinates to spherical
 	{
 		Vector3 sphericalVector;
 		sphericalVector.x = Mathf.Sqrt(Mathf.Pow(cartesVec.x, 2)+ Mathf.Pow(cartesVec.y, 2)+ Mathf.Pow(cartesVec.z, 2));
@@ -111,13 +104,11 @@ public class VectorLib : MonoBehaviour
 		return sphericalVector;
 	}
 
-	public bool checkSphereCol(Vector3 objectPoint1, Vector3 objectPoint2, float radius1, float radius2) // Checks if two spheres are close than the sum of their radii
+	public bool CheckSphereCol(Vector3 objectPoint1, Vector3 objectPoint2, float radius1, float radius2) // Checks if two spheres are close than the sum of their radii
 	{
 		return (MagVec(SubVec(objectPoint1, objectPoint2)) < radius1 + radius2);
 	}
-
-
+	
 
 	// TODO Comment for UnitDirVec, DirVec and OnLine
-	// TODO See if "return new Vector3()" is allowed, adjust accordingly
 }

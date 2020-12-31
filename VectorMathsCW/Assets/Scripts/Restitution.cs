@@ -9,7 +9,7 @@ public class Restitution : MonoBehaviour
 
 	public Vector3 velocity, acceleration;
     public VectorLib vecLib;
-
+    public bool enableBorder;
     bool CheckBounce(float height) // Checks if the ball is touching the ground.
     {
 	    if (transform.position.y - transform.lossyScale.y / 2 < height)
@@ -30,7 +30,7 @@ public class Restitution : MonoBehaviour
 
     void Bounce() // Bounce function to add velocity to the ball when its on the ground. TODO Needs some work on the bounce limit! / Bounce Height
 	{
-	    float newVelocity = Math.Abs(velocity.y) * restitution; // Would not work if the ball bounced off of a ceiling!
+	    float newVelocity = -velocity.y * restitution; // Would not work if the ball bounced off of a ceiling!
 		ResetHeight();
 	    if (Math.Abs(velocity.y) > bounceLimit)
 	    {
@@ -63,7 +63,7 @@ public class Restitution : MonoBehaviour
     {
 	    velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(acceleration, Time.deltaTime)); // Adds acceleration to the velocity.
 	    if (CheckBounce(groundHeight)) { Bounce(); }
-	    if (CheckBounds()) { FreezeBall(); }
+	    if (CheckBounds() && enableBorder) { FreezeBall(); }
 		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));
 		
 	}

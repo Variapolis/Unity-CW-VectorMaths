@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2ab578a55030d46bcdfca98e158d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 1
+  mass: 30
   friction: 0.2
-  minVelocity: 0.01
+  minVelocity: 0.05
   velocity: {x: 8, y: 0, z: 8}
   vecLib: {fileID: 456917111}
   balls:
@@ -166,6 +166,7 @@ MonoBehaviour:
   - {fileID: 1864348902}
   - {fileID: 1524991986}
   - {fileID: 1182127715}
+  radius: 0
 --- !u!135 &374089647
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374089645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.37, y: 2.25, z: -1.08}
+  m_LocalPosition: {x: -3.596, y: 2.25, z: -2.264}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -371,7 +372,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523209958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.91, y: 2.25, z: 2.21}
+  m_LocalPosition: {x: 1.68, y: 2.25, z: 3.71}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -386,21 +387,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 523209958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca2ab578a55030d46bcdfca98e158d6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 718d343870c63c24d85912ca71398054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0.8
-  friction: 0.4
-  minVelocity: 0.01
-  velocity: {x: 0.2, y: 0, z: 0}
+  mass: 1
+  friction: 0.2
+  minVelocity: 0.15
+  velocity: {x: -7, y: 0, z: -8}
   vecLib: {fileID: 456917111}
-  balls:
-  - {fileID: 374089646}
   walls:
   - {fileID: 1042852965}
   - {fileID: 1864348902}
   - {fileID: 1524991986}
   - {fileID: 1182127715}
+  radius: 0
 --- !u!1 &904555222
 GameObject:
   m_ObjectHideFlags: 0

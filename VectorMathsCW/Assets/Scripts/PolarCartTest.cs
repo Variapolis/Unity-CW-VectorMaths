@@ -11,7 +11,7 @@ public class PolarCartTest : MonoBehaviour
     void Start()
     {
         Debug.Log("Original vector is "+test);
-	    Vector3 sphericalTest = vecLib.toSphericalPolar(test);
+	    Vector3 sphericalTest = vecLib.ToSphericalPolar(test);
         Debug.Log("Spherical vector is "+sphericalTest);
         Debug.Log("Cartesian vector is "+vecLib.ToSphericalCartes(sphericalTest));
     }

@@ -249,8 +249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vecLib: {fileID: 1209559012}
   startingWaypoint: 3
-  speed: 2
-  distanceThreshold: 0.2
+  speed: 3
+  distanceThreshold: 2
   waypoints:
   - {fileID: 817821690}
   - {fileID: 1499382511}

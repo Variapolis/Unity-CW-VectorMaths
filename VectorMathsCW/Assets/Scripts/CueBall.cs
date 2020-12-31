@@ -8,8 +8,11 @@ public class CueBall : MonoBehaviour
 
 	public Vector3 velocity;
 	public VectorLib vecLib;
-	public  CueBall[] balls;
+	public VictimBall[] balls;
 	public WallToLine[] walls;
+	public float radius;
+	private Vector3 totalVelocity;
+
 
 	void FrictionToleranceHandler() // If velocity is below a certain speed, sets to 0.
     {
@@ -47,17 +50,20 @@ public class CueBall : MonoBehaviour
 		}
     }
 
-    void BallCollisionHandler(CueBall ball2) // TODO refer to video for comments
+    public void BallCollisionHandler(VictimBall ball2) // Conservation of momentum equation to calculate bounce velocity for self.
     {
+	    Debug.Log("Collision");
+	    totalVelocity = vecLib.AddVec(velocity, ball2.velocity);
+		float velocityScalar = vecLib.DotVec(vecLib.SubVec(velocity, ball2.velocity), vecLib.SubVec(transform.position, ball2.transform.position)) / Mathf.Pow(vecLib.MagVec(vecLib.SubVec(transform.position, ball2.transform.position)), 2f);
 	    
-	    float velocityScalar = vecLib.DotVec(vecLib.SubVec(velocity, ball2.velocity), vecLib.SubVec(transform.position, ball2.transform.position)) / Mathf.Pow(vecLib.MagVec(vecLib.SubVec(transform.position, ball2.transform.position)), 2f);
-	    float massCalc = velocityScalar * (2 * ball2.mass) / mass + ball2.mass;
-	    velocity = vecLib.SubVec(velocity, vecLib.ScalarMultVec(vecLib.SubVec(transform.position, ball2.transform.position), massCalc));
+	    float massCalc = velocityScalar * ((2 * ball2.mass) / mass + ball2.mass);
+
+	    velocity = vecLib.SubVec(velocity, vecLib.ScalarMultVec(vecLib.SubVec(transform.position, ball2.transform.position), massCalc)); // New velocity equals equation
+	    
+	    ball2.velocity = vecLib.SubVec(totalVelocity, velocity); // ball2 velocity takes whatever remains. Momentum is preserved.
     }
 
-
-    // Update is called once per frame
-    void Update()
+    void CheckWallCol()
     {
 	    foreach (WallToLine i in walls) // iterates through the walls array and checks collision against every wall.
 	    {
@@ -66,19 +72,34 @@ public class CueBall : MonoBehaviour
 		    if (onLine)
 		    {
 			    WallCollisionHandler(i);
-			}
+		    }
 	    }
+	}
 
-	    foreach (CueBall i in balls) // iterates through the balls and checks collision
+    void CheckBallCol()
+    {
+	    foreach (VictimBall i in balls) // iterates through the balls and checks collision
 	    {
-		    bool ballCol = (vecLib.checkSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
+		    bool ballCol = (vecLib.CheckSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
 			    i.transform.localScale.x / 2));
-			// if this ball or the other ball is moving towards the other, and the ball is colliding, runs ball col handler
+		    // if this ball or the other ball is moving towards the other, and the ball is colliding, runs ball col handler
 		    if (ballCol && (vecLib.isMovingTowards(i.transform.position, transform.position, velocity) || vecLib.isMovingTowards(transform.position, i.transform.position, i.velocity)))
 		    {
 			    BallCollisionHandler(i);
 		    }
 	    }
+	}
+
+    void Start()
+    {
+	    radius = transform.localScale.x/2;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+		CheckWallCol();
+		CheckBallCol();
 
 		// Friction
 		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
