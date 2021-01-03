@@ -7,7 +7,6 @@ using UnityEngine.Animations;
 public class Navigation : MonoBehaviour
 {
 
-	public VectorLib vecLib;
 	public int startingWaypoint;
 	public float speed;
 	public float distanceThreshold;
@@ -32,14 +31,14 @@ public class Navigation : MonoBehaviour
 
     float GetDistance(Vector3 vec1)
     {
-	    return vecLib.MagVec(vecLib.SubVec(transform.position, vec1)); // subtracts own position vec from waypoint vec and gets magnitude to get distance
+	    return VectorLib.MagVec(VectorLib.SubVec(transform.position, vec1)); // subtracts own position vec from waypoint vec and gets magnitude to get distance
     }
 
     void MoveTowards(Vector3 target)
     {
 	    velocity =
-		    vecLib.ScalarMultVec(vecLib.UnitDirVec(target, transform.position), speed * Time.deltaTime);
-	    transform.position = vecLib.AddVec(transform.position, velocity); // Position changes based on velocity towards next waypoint.
+		    VectorLib.ScalarMultVec(VectorLib.UnitDirVec(target, transform.position), speed * Time.deltaTime);
+	    transform.position = VectorLib.AddVec(transform.position, velocity); // Position changes based on velocity towards next waypoint.
     }
 
     void CheckCollision()
@@ -47,7 +46,7 @@ public class Navigation : MonoBehaviour
 	    distance = GetDistance(waypoints[waypointIterator].transform.position); // Finds distance and checks whether within threshold to iterate to next waypoint.
 	    if (distance < distanceThreshold)
 	    {
-		    polar = vecLib.ToSphericalPolar(vecLib.SubVec(transform.position, waypoints[waypointIterator].transform.position));
+		    polar = VectorLib.ToSphericalPolar(VectorLib.SubVec(transform.position, waypoints[waypointIterator].transform.position));
 		    startAngle = polar.z;
 			rotating = true;
 	    }
@@ -57,7 +56,7 @@ public class Navigation : MonoBehaviour
     {
 		Debug.Log("distance good");
 	    polar.z += speed * Time.deltaTime;
-		transform.position = vecLib.AddVec(waypoints[waypointIterator].transform.position, vecLib.ToSphericalCartes(polar));
+		transform.position = VectorLib.AddVec(waypoints[waypointIterator].transform.position, VectorLib.ToSphericalCartes(polar));
 		if (polar.z > startAngle + Mathf.PI * 2 - poleThreshold && polar.z < startAngle + Mathf.PI * 2 + poleThreshold) { Iterate(); }
     }
 

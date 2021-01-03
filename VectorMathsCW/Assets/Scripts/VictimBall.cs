@@ -7,11 +7,10 @@ public class VictimBall : MonoBehaviour
 	public float mass, friction, minVelocity;
 
 	public Vector3 velocity;
-	public VectorLib vecLib;
 	public WallToLine[] walls;
 	public float radius;
 
-
+	
 	void FrictionToleranceHandler() // If velocity is below a certain speed, sets to 0.
 	{
 		if (velocity.x < minVelocity && velocity.x > -minVelocity)
@@ -34,7 +33,8 @@ public class VictimBall : MonoBehaviour
 			// if velocity sign is the same as the position sign of the wall, cheap way to check "Is Moving Towards"
 			{
 				Debug.Log("Reflected Z axis");
-				velocity = vecLib.ReflVecAxisAlign(velocity, 'z');
+				velocity = VectorLib.ReflVecAxisAlign(velocity, 'z');
+				
 			}
 
 		}
@@ -43,7 +43,7 @@ public class VictimBall : MonoBehaviour
 			if (Mathf.Sign(wall.transform.position.x) == Mathf.Sign(velocity.x))
 			{
 				Debug.Log("Reflected X axis");
-				velocity = vecLib.ReflVecAxisAlign(velocity, 'x');
+				velocity = VectorLib.ReflVecAxisAlign(velocity, 'x');
 			}
 		}
 	}
@@ -53,7 +53,7 @@ public class VictimBall : MonoBehaviour
 	{
 		foreach (WallToLine i in walls) // iterates through the walls array and checks collision against every wall.
 		{
-			bool onLine = (vecLib.isOnLine(transform.position, i.position1, i.position2,
+			bool onLine = (VectorLib.isOnLine(transform.position, i.position1, i.position2,
 				transform.localScale.x / 2 + i.transform.localScale.z / 2));
 			if (onLine)
 			{
@@ -74,11 +74,11 @@ public class VictimBall : MonoBehaviour
 		CheckWallCol();
 
 		// Friction
-		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
+		velocity = VectorLib.AddVec(velocity, VectorLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
 		FrictionToleranceHandler();
 
 		// Velocity transform
-		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime)); // velocity added to position over time
+		transform.position = VectorLib.AddVec(transform.position, VectorLib.ScalarMultVec(velocity, Time.deltaTime)); // velocity added to position over time
 
 	}
 

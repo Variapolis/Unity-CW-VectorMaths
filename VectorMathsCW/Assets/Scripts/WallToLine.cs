@@ -5,7 +5,6 @@ using UnityEngine;
 public class WallToLine : MonoBehaviour
 {
 	public Vector3 position1, position2;
-	public VectorLib vecLib;
 
 
 	Vector3 GetLongEdge()//Finds one long-side of the wall based on rotation and scale
@@ -26,7 +25,7 @@ public class WallToLine : MonoBehaviour
 	void Start()
 	{
 		position1 = GetLongEdge();
-		position2 = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(vecLib.SubVec(transform.position, position1), 1)); 
+		position2 = VectorLib.AddVec(transform.position, VectorLib.ScalarMultVec(VectorLib.SubVec(transform.position, position1), 1)); 
 		// finds the other side's position by getting the distance from the side to the middle and adding it to the middle vector.
 	}
 }

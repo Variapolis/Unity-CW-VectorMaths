@@ -7,7 +7,6 @@ public class CueBall : MonoBehaviour
     public float mass, friction, minVelocity;
 
 	public Vector3 velocity;
-	public VectorLib vecLib;
 	public VictimBall[] balls;
 	public WallToLine[] walls;
 	public float radius;
@@ -36,7 +35,7 @@ public class CueBall : MonoBehaviour
 				// if velocity sign is the same as the position sign of the wall, cheap way to check "Is Moving Towards"
 			{
 				Debug.Log("Reflected Z axis");
-				velocity = vecLib.ReflVecAxisAlign(velocity, 'z'); 
+				velocity = VectorLib.ReflVecAxisAlign(velocity, 'z');
 			}
 			
 		}
@@ -45,7 +44,7 @@ public class CueBall : MonoBehaviour
 			if (Mathf.Sign(wall.transform.position.x) == Mathf.Sign(velocity.x))
 			{
 				Debug.Log("Reflected X axis");
-				velocity = vecLib.ReflVecAxisAlign(velocity, 'x');
+				velocity = VectorLib.ReflVecAxisAlign(velocity, 'x');
 			}
 		}
     }
@@ -53,21 +52,21 @@ public class CueBall : MonoBehaviour
     public void BallCollisionHandler(VictimBall ball2) // Conservation of momentum equation to calculate bounce velocity for self.
     {
 	    Debug.Log("Collision");
-	    totalVelocity = vecLib.AddVec(velocity, ball2.velocity);
-		float velocityScalar = vecLib.DotVec(vecLib.SubVec(velocity, ball2.velocity), vecLib.SubVec(transform.position, ball2.transform.position)) / Mathf.Pow(vecLib.MagVec(vecLib.SubVec(transform.position, ball2.transform.position)), 2f);
+	    totalVelocity = VectorLib.AddVec(velocity, ball2.velocity);
+		float velocityScalar = VectorLib.DotVec(VectorLib.SubVec(velocity, ball2.velocity), VectorLib.SubVec(transform.position, ball2.transform.position)) / Mathf.Pow(VectorLib.MagVec(VectorLib.SubVec(transform.position, ball2.transform.position)), 2f);
 	    
 	    float massCalc = velocityScalar * ((2 * ball2.mass) / mass + ball2.mass);
 
-	    velocity = vecLib.SubVec(velocity, vecLib.ScalarMultVec(vecLib.SubVec(transform.position, ball2.transform.position), massCalc)); // New velocity equals equation
+	    velocity = VectorLib.SubVec(velocity, VectorLib.ScalarMultVec(VectorLib.SubVec(transform.position, ball2.transform.position), massCalc)); // New velocity equals equation
 	    
-	    ball2.velocity = vecLib.SubVec(totalVelocity, velocity); // ball2 velocity takes whatever remains. Momentum is preserved.
+	    ball2.velocity = VectorLib.SubVec(totalVelocity, velocity); // ball2 velocity takes whatever remains. Momentum is preserved.
     }
 
     void CheckWallCol()
     {
 	    foreach (WallToLine i in walls) // iterates through the walls array and checks collision against every wall.
 	    {
-		    bool onLine = (vecLib.isOnLine(transform.position, i.position1, i.position2,
+		    bool onLine = (VectorLib.isOnLine(transform.position, i.position1, i.position2,
 			    transform.localScale.x / 2 + i.transform.localScale.z / 2));
 		    if (onLine)
 		    {
@@ -80,10 +79,10 @@ public class CueBall : MonoBehaviour
     {
 	    foreach (VictimBall i in balls) // iterates through the balls and checks collision
 	    {
-		    bool ballCol = (vecLib.CheckSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
+		    bool ballCol = (VectorLib.CheckSphereCol(transform.position, i.transform.position, transform.localScale.x / 2,
 			    i.transform.localScale.x / 2));
 		    // if this ball or the other ball is moving towards the other, and the ball is colliding, runs ball col handler
-		    if (ballCol && (vecLib.isMovingTowards(i.transform.position, transform.position, velocity) || vecLib.isMovingTowards(transform.position, i.transform.position, i.velocity)))
+		    if (ballCol && (VectorLib.isMovingTowards(i.transform.position, transform.position, velocity) || VectorLib.isMovingTowards(transform.position, i.transform.position, i.velocity)))
 		    {
 			    BallCollisionHandler(i);
 		    }
@@ -102,11 +101,11 @@ public class CueBall : MonoBehaviour
 		CheckBallCol();
 
 		// Friction
-		velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
+		velocity = VectorLib.AddVec(velocity, VectorLib.ScalarMultVec(velocity, -friction * Time.deltaTime)); // velocity is added to itself multiplied by negative friction
 		FrictionToleranceHandler();
 
 		// Velocity transform
-		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime)); // velocity added to position over time
+		transform.position = VectorLib.AddVec(transform.position, VectorLib.ScalarMultVec(velocity, Time.deltaTime)); // velocity added to position over time
 
 	}
 

@@ -8,8 +8,7 @@ public class Restitution : MonoBehaviour
 	public float restitution, bounceLimit, boundsLimit, groundHeight;
 
 	public Vector3 velocity, acceleration;
-    public VectorLib vecLib;
-    public bool enableBorder;
+	public bool enableBorder;
     bool CheckBounce(float height) // Checks if the ball is touching the ground.
     {
 	    if (transform.position.y - transform.lossyScale.y / 2 < height)
@@ -44,7 +43,7 @@ public class Restitution : MonoBehaviour
 
     void FreezeBall() // Sets the velocity vector to zero, in turn nulling it's velocity.
     {
-	    velocity = vecLib.ZeroVec();
+	    velocity = VectorLib.ZeroVec();
 		Debug.Log("Ball Frozen.");
     }
 
@@ -61,10 +60,10 @@ public class Restitution : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    velocity = vecLib.AddVec(velocity, vecLib.ScalarMultVec(acceleration, Time.deltaTime)); // Adds acceleration to the velocity.
+	    velocity = VectorLib.AddVec(velocity, VectorLib.ScalarMultVec(acceleration, Time.deltaTime)); // Adds acceleration to the velocity.
 	    if (CheckBounce(groundHeight)) { Bounce(); }
 	    if (CheckBounds() && enableBorder) { FreezeBall(); }
-		transform.position = vecLib.AddVec(transform.position, vecLib.ScalarMultVec(velocity, Time.deltaTime));
+		transform.position = VectorLib.AddVec(transform.position, VectorLib.ScalarMultVec(velocity, Time.deltaTime));
 		
 	}
 }
